@@ -49,9 +49,7 @@ const boutonFiltre = document.querySelector(".btn-filtrer");
 boutonFiltre.addEventListener("click", _ => {
     let piecesFiltre = Array.from(pieces);
 
-    piecesFiltre = piecesFiltre.filter( (piece) => {
-        return piece.prix <= 35;
-    });
+    piecesFiltre = piecesFiltre.filter( piece => piece.prix <= 35 );
     console.log(piecesFiltre);
 });
 
@@ -59,9 +57,7 @@ const boutonTrierDecroissant = document.querySelector(".btn-trier-decroissant");
 boutonTrierDecroissant.addEventListener("click", ev => {
     let piecesTrieDec = Array.from(pieces);
 
-    piecesTrieDec.sort(function(a, b) {
-        return b.prix - a.prix;
-    });
+    piecesTrieDec.sort( (a, b) => (b.prix - a.prix) );
     console.log(piecesTrieDec);
 });
 
@@ -69,10 +65,41 @@ const boutonFiltreDesc = document.querySelector(".brn-filtrer-description");
 boutonFiltreDesc.addEventListener("click", _ => {
     let piecesFiltreDesc = Array.from(pieces);
 
-    piecesFiltreDesc = piecesFiltreDesc.filter( (piece) => {
-        return piece.description;
-    });
+    piecesFiltreDesc = piecesFiltreDesc.filter( piece => piece.description );
     console.log(piecesFiltreDesc);
 });
 
+const piecesAbordables = pieces.filter( piece => piece.prix <= 35 );
+const nomPiecesAbordables = piecesAbordables.map(piece => piece.nom);
 
+const listeAbordablesElement = document.createElement("li");
+
+nomPiecesAbordables.forEach( (nomPiece, index) => {
+    const listElement = document.createElement("li");
+
+    listElement.textContent = nomPiece;
+    listeAbordablesElement.appendChild(listElement);
+});
+
+const sectionAbordable = document.querySelector(".abordables");
+sectionAbordable?.appendChild(listeAbordablesElement);
+
+const piecesDisponibles = pieces.filter( piece => piece.disponibilite)
+const nomPiecesDisponibles = piecesDisponibles.map(pieceDispo => {
+    return {
+        "nom": pieceDispo.nom, 
+        "prix" : pieceDispo.prix
+    } 
+});
+
+const sectionDisponible = document.querySelector(".disponibles");
+const listeDisponiblesElement = document.createElement("li");
+
+nomPiecesDisponibles.forEach( (piece, index) => {
+    const listElement = document.createElement("li");
+
+    listElement.textContent = `${piece.nom} (${piece.prix} €)`;
+    listeDisponiblesElement.appendChild(listElement)
+})
+
+sectionDisponible.appendChild(listeDisponiblesElement);
