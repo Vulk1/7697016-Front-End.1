@@ -69,3 +69,17 @@ main {
 .abordables {
 	padding: 20px;
 }
+.filter-row {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+	position: relative;
+	padding: 25px 10px;
+	background-color: beige;
+}
+.filter-row #rangePrixText {
+	position: absolute;
+	right: 5px;
+	top: 0;
+}

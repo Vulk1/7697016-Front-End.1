@@ -19,20 +19,19 @@
 				<br>
 				<button class="btn-filtrer">Filtrer les pièces non abordables</button>
 				<br>
-				<button class="brn-filtrer-description">Filtrer les pièces sans description</button>
-				<br>
 				<button class="btn-trier-decroissant">Trier par prix décroissant</button>
-
+				<br>
+				<div class="filter-row">
+					<label for="rangePrixMax">Prix Maximum</label>
+					<input type="range" id="rangePrixMax" name="rangePrixMax" min="0" max="60" step="5">
+					<span id="rangePrixText">14e</span>
+				</div>
+				
 			</section>
 			
 			<!-- Fiches produits -->
 			<section class="fiches">
-				<div class="abordables">
-					<h2>Pièces abordables : </h2>
-				</div>
-				<div class="disponibles">
-					<h2>Pièces abordables : </h2>
-				</div>
+				
 			</section>
 		</main>
 	</body>

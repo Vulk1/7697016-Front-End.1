@@ -1,39 +1,43 @@
-const response = await fetch("pieces-autos.json");
-const pieces = await response.json();
+const pieces = await fetch("pieces-autos.json").then(pieces => pieces.json());
+let piecesAffiche = pieces
 
-let nbArticle = pieces.length;
+function genererPieces() {
 
-//Rattachement de nos balises au DOM
-const sectionFiches = document.querySelector(".fiches");
+    //Balise qui affichera tous les produits
+    const sectionFiches = document.querySelector(".fiches");
+    sectionFiches.innerHTML = ""
+    const nbDePiece = piecesAffiche.length;
 
-for(let i=0; i < nbArticle; i++) {
-    const article = pieces[i];
+    for(let i=0; i < nbDePiece; i++) {
+        const article = piecesAffiche[i];
 
-    const pieceElement = document.createElement("article");
+        const pieceElement = document.createElement("article");
 
-    const imageElement = document.createElement("img");
-    imageElement.src = article.image;
-    const nomElement = document.createElement("h2");
-    nomElement.textContent = article.nom;
-    const prixElement = document.createElement("p");
-    prixElement.textContent = `Prix : ${article.prix} € (${article.prix < 35 ? "€" : "€€€"})`;
-    const categorieElement = document.createElement("p");
-    categorieElement.textContent = article.categorie ?? "(aucune catégorie)";
-    const descriptionElement = document.createElement("p");
-    descriptionElement.textContent = article.description ?? "Pas de description pour le moment.";
-    const stockElement = document.createElement("p");
-    stockElement.textContent = article.disponibilite ? "En stock" : "Rupture de stock";
+        const imageElement = document.createElement("img");
+        imageElement.src = article.image;
+        const nomElement = document.createElement("h2");
+        nomElement.textContent = article.nom;
+        const prixElement = document.createElement("p");
+        prixElement.textContent = `Prix : ${article.prix} € (${article.prix < 35 ? "€" : "€€€"})`;
+        const categorieElement = document.createElement("p");
+        categorieElement.textContent = article.categorie ?? "(aucune catégorie)";
+        const descriptionElement = document.createElement("p");
+        descriptionElement.textContent = article.description ?? "Pas de description pour le moment.";
+        const stockElement = document.createElement("p");
+        stockElement.textContent = article.disponibilite ? "En stock" : "Rupture de stock";
 
-    
-    sectionFiches.appendChild(pieceElement);
+        
+        sectionFiches.appendChild(pieceElement);
 
-    pieceElement.appendChild(imageElement);
-    pieceElement.appendChild(nomElement);
-    pieceElement.appendChild(prixElement);
-    pieceElement.appendChild(categorieElement);
-    pieceElement.appendChild(descriptionElement);
-    pieceElement.appendChild(stockElement);
+        pieceElement.appendChild(imageElement);
+        pieceElement.appendChild(nomElement);
+        pieceElement.appendChild(prixElement);
+        pieceElement.appendChild(categorieElement);
+        pieceElement.appendChild(descriptionElement);
+        pieceElement.appendChild(stockElement);
+    }
 }
+
 
 const boutonTrier = document.querySelector(".btn-trier");
 boutonTrier.addEventListener("click", ev => {
@@ -42,7 +46,9 @@ boutonTrier.addEventListener("click", ev => {
     piecesTrie.sort(function(a, b) {
         return a.prix - b.prix;
     });
-    console.log(piecesTrie);
+    
+    piecesAffiche = Array.from(piecesTrie);
+    genererPieces()
 });
 
 const boutonFiltre = document.querySelector(".btn-filtrer");
@@ -50,7 +56,8 @@ boutonFiltre.addEventListener("click", _ => {
     let piecesFiltre = Array.from(pieces);
 
     piecesFiltre = piecesFiltre.filter( piece => piece.prix <= 35 );
-    console.log(piecesFiltre);
+    piecesAffiche = Array.from(piecesFiltre);
+    genererPieces()
 });
 
 const boutonTrierDecroissant = document.querySelector(".btn-trier-decroissant");
@@ -58,9 +65,40 @@ boutonTrierDecroissant.addEventListener("click", ev => {
     let piecesTrieDec = Array.from(pieces);
 
     piecesTrieDec.sort( (a, b) => (b.prix - a.prix) );
-    console.log(piecesTrieDec);
+    piecesAffiche = Array.from(piecesTrieDec);
+    genererPieces()
 });
 
+const sliderPrix = document.getElementById("rangePrixMax");
+const sliderPrixDisplayer = document.getElementById("rangePrixText");
+sliderPrixDisplayer.textContent = ""
+
+sliderPrix.addEventListener("input", (ev) => {
+    let piecesFilteredByPrice = Array.from(pieces);
+    let priceValue = ev.target.value;
+    sliderPrixDisplayer.textContent = `${priceValue} €`
+
+
+    piecesFilteredByPrice = piecesFilteredByPrice.filter( piece => piece.prix <= priceValue);
+    piecesAffiche = Array.from(piecesFilteredByPrice);
+    genererPieces()
+
+})
+
+genererPieces();
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 const boutonFiltreDesc = document.querySelector(".brn-filtrer-description");
 boutonFiltreDesc.addEventListener("click", _ => {
     let piecesFiltreDesc = Array.from(pieces);
@@ -103,3 +141,4 @@ nomPiecesDisponibles.forEach( (piece, index) => {
 })
 
 sectionDisponible.appendChild(listeDisponiblesElement);
+*/
