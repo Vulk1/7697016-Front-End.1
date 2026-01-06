@@ -3,13 +3,13 @@ const pieces = await response.json();
 
 const article = pieces[0];
 
-let imageElement = document.createElement("img");
+const imageElement = document.createElement("img");
 imageElement.src = article.image;
-let nomElement = document.createElement("h2");
+const nomElement = document.createElement("h2");
 nomElement.textContent = article.nom;
-let prixElement = document.createElement("p");
+const prixElement = document.createElement("p");
 prixElement.textContent = `Prix : ${article.prix} € (${article.prix < 35 ? "€" : "€€€"})`;
-let categorieElement = document.createElement("p");
+const categorieElement = document.createElement("p");
 categorieElement.textContent = article.categorie ?? "(aucune catégorie)";
 const descriptionElement = document.createElement("p");
 descriptionElement.textContent = article.description ?? "Pas de description pour le moment.";
